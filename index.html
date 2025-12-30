@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessible Slideshow</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main id="main-container" role="main">
+        <div id="start-screen">
+            <button id="start-button" aria-label="Start slideshow">Start</button>
+        </div>
+
+        <div id="slideshow-container" class="hidden">
+            <div id="slide-number" aria-live="polite">Slide 1 of 5</div>
+            <div id="slide-container" role="region" aria-live="polite" aria-label="Slide content">
+                <div id="slide-content"></div>
+            </div>
+
+            <div id="controls" role="toolbar" aria-label="Slideshow controls">
+                <div id="timer-controls">
+                    <button id="decrease-timer" aria-label="Decrease slide duration by half second" aria-describedby="timer-hotkeys">
+                        <span aria-hidden="true">−</span>
+                    </button>
+                    <input 
+                        type="range" 
+                        id="timer-slider" 
+                        min="1" 
+                        max="15" 
+                        step="0.5" 
+                        value="5" 
+                        aria-label="Slide duration in seconds"
+                    >
+                    <span id="timer-display" aria-live="polite">5 seconds</span>
+                    <button id="increase-timer" aria-label="Increase slide duration by half second" aria-describedby="timer-hotkeys">
+                        <span aria-hidden="true">+</span>
+                    </button>
+                    <span id="timer-hotkeys" class="sr-only">Press Left Arrow to decrease, Right Arrow to increase</span>
+                </div>
+
+                <div id="navigation-controls">
+                    <button id="prev-button" aria-label="Previous slide">
+                        <span aria-hidden="true">←</span> Previous
+                    </button>
+                    <button id="play-pause-button" aria-label="Pause slideshow" aria-pressed="false">
+                        <span aria-hidden="true">⏸</span> Pause
+                    </button>
+                    <button id="next-button" aria-label="Next slide">
+                        Next <span aria-hidden="true">→</span>
+                    </button>
+                    <button id="loop-toggle" aria-label="Toggle looping" aria-pressed="true">
+                        <span aria-hidden="true">🔄</span> Loop
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="announcer" aria-live="assertive" class="sr-only"></div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
