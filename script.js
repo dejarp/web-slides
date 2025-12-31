@@ -31,6 +31,16 @@ function announceToScreenReader(message) {
     announcer.textContent = message;
 }
 
+function speakSlide(content) {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(content);
+        utterance.rate = 1;
+        utterance.pitch = 1;
+        window.speechSynthesis.speak(utterance);
+    }
+}
+
 function showSlide(index) {
     if (index < 0) {
         index = isLooping ? slides.length - 1 : 0;
@@ -42,6 +52,7 @@ function showSlide(index) {
     slideContent.textContent = slides[index].content;
     updateSlideNumber();
     announceToScreenReader(`Slide ${index + 1} of ${slides.length}: ${slides[index].content}`);
+    speakSlide(slides[index].content);
 }
 
 function startTimer() {
