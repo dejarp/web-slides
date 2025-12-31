@@ -6,6 +6,7 @@ Create a single-page HTML slideshow application with strong accessibility featur
 ## Structure
 - `index.html` - Main HTML file with all markup
 - `styles.css` - Styles for accessible, high-contrast design
+- `slides.js` - JavaScript file containing slide content data
 - `script.js` - JavaScript for slideshow logic
 
 ## HTML Structure
@@ -52,6 +53,9 @@ Create a single-page HTML slideshow application with strong accessibility featur
 - Light and dark theme options for visual comfort
 
 ## Data Structure
+
+### slides.js
+Slide content is stored in a separate file (`slides.js`) for easy updates:
 ```javascript
 const slides = [
   { content: "Welcome to the presentation" },
