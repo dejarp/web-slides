@@ -26,7 +26,7 @@ Create a single-page HTML slideshow application with strong accessibility featur
   - Increment/decrement buttons with `aria-label` (e.g., "Decrease duration by half second")
   - Play/Pause button with `aria-label` and state change announcements
   - Forward/Back buttons with appropriate labels
-  - Loop toggle button with `aria-pressed` state
+  - Speech toggle button with `aria-pressed` state (enabled by default)
 
 ## Accessibility Features
 
@@ -41,7 +41,8 @@ Create a single-page HTML slideshow application with strong accessibility featur
 - Live regions announce slide changes
 - Button states clearly communicated (aria-pressed, aria-expanded, etc.)
 - Timer changes announced
-- Loop state announced when toggled
+- Speech state announced when toggled
+- Speech synthesis reads slide content aloud when enabled (default)
 
 ### Visual Accessibility
 - Large text (minimum 32px for slides, 16px for controls)
@@ -65,18 +66,19 @@ const slides = [
 - `currentSlideIndex`: tracks current slide
 - `isPlaying`: boolean for play/pause state
 - `timerDuration`: number in seconds (default 5)
-- `isLooping`: boolean for loop toggle
+- `isSpeechEnabled`: boolean for speech synthesis toggle (default true)
 - `isDarkTheme`: boolean for theme state (default false)
 - `timerId`: reference to setInterval
 
 ### Functions Needed
 - `startSlideshow()`: hides start button, shows first slide, starts timer
-- `showSlide(index)`: updates slide content, announces change, updates slide number display, speaks content
+- `showSlide(index)`: updates slide content, announces change, updates slide number display, speaks content if enabled
 - `startTimer()` / `stopTimer()`: manages interval
 - `nextSlide()` / `prevSlide()`: navigation
 - `updateTimerDisplay()`: updates slider and displayed value
 - `updateSlideNumber()`: updates slide number indicator in top right
-- `speakSlide(content)`: uses browser's Speech Synthesis API to read slide content aloud
+- `speakSlide(content)`: uses browser's Speech Synthesis API to read slide content aloud if enabled
+- `toggleSpeech()`: enables/disables speech synthesis
 - `toggleTheme()`: switches between light and dark color schemes
 - `announceToScreenReader(message)`: uses live region for announcements
 
@@ -85,7 +87,7 @@ const slides = [
 - Increment/decrement buttons: click event, modify timer duration
 - Play/Pause: toggle timer, update button text/state
 - Forward/Back: navigate and reset timer
-- Loop toggle: update state and announce
+- Speech toggle: enable/disable speech synthesis and announce
 - Keyboard shortcuts: Arrow keys for timer, Space for play/pause
 
 ## Styling Approach
@@ -102,6 +104,8 @@ const slides = [
 - Screen reader announces all changes
 - All buttons have focus indicators
 - Timer adjustments work correctly
-- Loop toggle functions properly
+- Speech toggle enables/disables synthesis properly
+- Speech synthesis reads slide content when enabled
+- Speech synthesis is silent when disabled
 - Slides cycle correctly when playing
 - Start button disappears appropriately

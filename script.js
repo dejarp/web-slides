@@ -9,7 +9,7 @@ const slides = [
 let currentSlideIndex = 0;
 let isPlaying = false;
 let timerDuration = 5;
-let isLooping = true;
+let isSpeechEnabled = true;
 let isDarkTheme = false;
 let timerId = null;
 
@@ -26,7 +26,7 @@ const increaseTimerButton = document.getElementById('increase-timer');
 const playPauseButton = document.getElementById('play-pause-button');
 const prevButton = document.getElementById('prev-button');
 const nextButton = document.getElementById('next-button');
-const loopToggleButton = document.getElementById('loop-toggle');
+const speechToggleButton = document.getElementById('speech-toggle');
 const announcer = document.getElementById('announcer');
 
 function announceToScreenReader(message) {
@@ -45,16 +45,18 @@ function speakSlide(content) {
 
 function showSlide(index) {
     if (index < 0) {
-        index = isLooping ? slides.length - 1 : 0;
+        index = slides.length - 1;
     } else if (index >= slides.length) {
-        index = isLooping ? 0 : slides.length - 1;
+        index = 0;
     }
     
     currentSlideIndex = index;
     slideContent.textContent = slides[index].content;
     updateSlideNumber();
     announceToScreenReader(`Slide ${index + 1} of ${slides.length}: ${slides[index].content}`);
-    speakSlide(slides[index].content);
+    if (isSpeechEnabled) {
+        speakSlide(slides[index].content);
+    }
 }
 
 function startTimer() {
@@ -84,15 +86,7 @@ function startSlideshow() {
 function nextSlide() {
     let nextIndex = currentSlideIndex + 1;
     if (nextIndex >= slides.length) {
-        if (isLooping) {
-            nextIndex = 0;
-        } else {
-            stopTimer();
-            isPlaying = false;
-            updatePlayPauseButton();
-            announceToScreenReader("End of slideshow");
-            return;
-        }
+        nextIndex = 0;
     }
     showSlide(nextIndex);
     if (isPlaying) {
@@ -157,10 +151,13 @@ function increaseTimer() {
     }
 }
 
-function toggleLoop() {
-    isLooping = !isLooping;
-    loopToggleButton.setAttribute('aria-pressed', isLooping);
-    announceToScreenReader(isLooping ? "Looping enabled" : "Looping disabled");
+function toggleSpeech() {
+    isSpeechEnabled = !isSpeechEnabled;
+    speechToggleButton.setAttribute('aria-pressed', isSpeechEnabled);
+    if (!isSpeechEnabled) {
+        window.speechSynthesis.cancel();
+    }
+    announceToScreenReader(isSpeechEnabled ? "Speech synthesis enabled" : "Speech synthesis disabled");
 }
 
 function toggleTheme() {
@@ -178,7 +175,7 @@ prevButton.addEventListener('click', prevSlide);
 nextButton.addEventListener('click', nextSlide);
 decreaseTimerButton.addEventListener('click', decreaseTimer);
 increaseTimerButton.addEventListener('click', increaseTimer);
-loopToggleButton.addEventListener('click', toggleLoop);
+speechToggleButton.addEventListener('click', toggleSpeech);
 
 timerSlider.addEventListener('input', (e) => {
     timerDuration = parseFloat(e.target.value);
