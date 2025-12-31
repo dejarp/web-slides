@@ -12,6 +12,7 @@ Create a single-page HTML slideshow application with strong accessibility featur
 
 ### Initial State
 - Main container with ARIA landmark
+- Theme toggle button (visible in top-left corner) for switching between light and dark themes
 - Large "Start" button (min 44x44px, high contrast text)
 - Button uses `aria-label` for clarity
 
@@ -19,6 +20,7 @@ Create a single-page HTML slideshow application with strong accessibility featur
 - **Slide Container**: `<div role="region" aria-live="polite">`
 - **Slide Content**: Large centered text (minimum 32px, scalable via em/rem)
 - **Slide Number Indicator**: Displayed in top right corner showing "X of Y" format with `aria-live="polite"`
+- **Theme Toggle Button**: Button (in top-left corner) to switch between light and dark themes with appropriate ARIA attributes
 - **Controls Panel**: 
   - Timer slider `<input type="range" min="1" max="15" step="0.5" aria-label="Slide duration in seconds">`
   - Increment/decrement buttons with `aria-label` (e.g., "Decrease duration by half second")
@@ -43,9 +45,10 @@ Create a single-page HTML slideshow application with strong accessibility featur
 
 ### Visual Accessibility
 - Large text (minimum 32px for slides, 16px for controls)
-- High contrast colors (WCAG AA compliant)
+- High contrast colors (WCAG AA compliant) in both light and dark themes
 - No flashing/jerking content
 - Sufficient tap targets (44x44px minimum)
+- Light and dark theme options for visual comfort
 
 ## Data Structure
 ```javascript
@@ -63,15 +66,18 @@ const slides = [
 - `isPlaying`: boolean for play/pause state
 - `timerDuration`: number in seconds (default 5)
 - `isLooping`: boolean for loop toggle
+- `isDarkTheme`: boolean for theme state (default false)
 - `timerId`: reference to setInterval
 
 ### Functions Needed
 - `startSlideshow()`: hides start button, shows first slide, starts timer
-- `showSlide(index)`: updates slide content, announces change, updates slide number display
+- `showSlide(index)`: updates slide content, announces change, updates slide number display, speaks content
 - `startTimer()` / `stopTimer()`: manages interval
 - `nextSlide()` / `prevSlide()`: navigation
 - `updateTimerDisplay()`: updates slider and displayed value
 - `updateSlideNumber()`: updates slide number indicator in top right
+- `speakSlide(content)`: uses browser's Speech Synthesis API to read slide content aloud
+- `toggleTheme()`: switches between light and dark color schemes
 - `announceToScreenReader(message)`: uses live region for announcements
 
 ### Event Handlers
@@ -83,7 +89,10 @@ const slides = [
 - Keyboard shortcuts: Arrow keys for timer, Space for play/pause
 
 ## Styling Approach
-- CSS custom properties for easy theming
+- CSS custom properties for easy theming with light and dark themes
+- Light theme: White background, black text, blue accents, orange focus
+- Dark theme: Dark gray background (#1a1a1a), white text, light blue accents, yellow focus
+- Both themes maintain WCAG AA contrast ratios
 - Flexbox/Grid for centering
 - Responsive design (works on mobile and desktop)
 - Print-friendly styles (optional)

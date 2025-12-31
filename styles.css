@@ -10,6 +10,18 @@
     --button-focus: #0052a3;
 }
 
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #66b3ff;
+    --focus-color: #ffcc00;
+    --border-color: #cccccc;
+    --button-bg: #0055aa;
+    --button-text: #ffffff;
+    --button-hover: #004488;
+    --button-focus: #004488;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -33,6 +45,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 #start-screen {
@@ -76,6 +89,41 @@ body {
     height: 100vh;
     padding: 2rem;
     position: relative;
+}
+
+#theme-toggle {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 1.5rem;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 3px solid var(--border-color);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, transform 0.1s;
+    z-index: 1000;
+}
+
+#theme-toggle:hover,
+#theme-toggle:focus {
+    background-color: var(--button-hover);
+    transform: scale(1.1);
+}
+
+#theme-toggle:focus {
+    outline: 4px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+#theme-toggle[aria-pressed="true"] {
+    background-color: var(--focus-color);
+    color: var(--text-color);
 }
 
 .hidden {

@@ -10,10 +10,12 @@ let currentSlideIndex = 0;
 let isPlaying = false;
 let timerDuration = 5;
 let isLooping = true;
+let isDarkTheme = false;
 let timerId = null;
 
 const startScreen = document.getElementById('start-screen');
 const slideshowContainer = document.getElementById('slideshow-container');
+const themeToggleButton = document.getElementById('theme-toggle');
 const slideNumber = document.getElementById('slide-number');
 const slideContent = document.getElementById('slide-content');
 const startButton = document.getElementById('start-button');
@@ -161,7 +163,16 @@ function toggleLoop() {
     announceToScreenReader(isLooping ? "Looping enabled" : "Looping disabled");
 }
 
+function toggleTheme() {
+    isDarkTheme = !isDarkTheme;
+    document.documentElement.setAttribute('data-theme', isDarkTheme ? 'dark' : 'light');
+    themeToggleButton.setAttribute('aria-pressed', isDarkTheme);
+    themeToggleButton.setAttribute('aria-label', isDarkTheme ? 'Switch to light theme' : 'Switch to dark theme');
+    announceToScreenReader(isDarkTheme ? "Dark theme enabled" : "Light theme enabled");
+}
+
 startButton.addEventListener('click', startSlideshow);
+themeToggleButton.addEventListener('click', toggleTheme);
 playPauseButton.addEventListener('click', togglePlayPause);
 prevButton.addEventListener('click', prevSlide);
 nextButton.addEventListener('click', nextSlide);
